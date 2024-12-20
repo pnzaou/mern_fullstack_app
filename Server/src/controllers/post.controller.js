@@ -3,22 +3,36 @@ const Post = require("../models/Post.model")
 const createPost = async (req, res) => {
     const {id} = req.authData
     const {contenu} = req.body
-    const images = req.files.map(image => `${req.protocol}://${req.get('host')}/uploads/${image.filename}`)
+
     try {
-        if(!contenu){
-            return res.status(400).json({message: "Veuillez saisir le contenu du post"})
+
+        if (!contenu || contenu.trim() === "") {
+            return res.status(400).json({ message: "Veuillez saisir le contenu du post." })
         }
-        const rep = await Post.create({
+
+        let images = []
+        if (req.files && req.files.length > 0) {
+            images = req.files.map(image => 
+                `${req.protocol}://${req.get('host')}/uploads/${image.filename}`
+            )
+        }
+
+        const newPost = await Post.create({
             contenu,
             images,
-            authorId: id
+            authorId: id,
         })
-        return res.status(201).json({message: "Votre post a été publié avec succès.", data: rep})
+
+        return res.status(201).json({
+            message: "Votre post a été publié avec succès.",
+            data: newPost,
+        })
+
     } catch (error) {
-        console.log(error.message);
+        console.error("Erreur lors de la création du post :", error.message)
         return res.status(500).json({
             message: "Une erreur est survenue. Veuillez réessayer.",
-            erreur: error
+            error: error.message,
         })
     }
 }
@@ -26,23 +40,37 @@ const createPost = async (req, res) => {
 const addToDraft = async (req, res) => {
     const {id} = req.authData
     const {contenu} = req.body
-    const images = req.files.map(image => `${req.protocol}://${req.get('host')}/uploads/${image.filename}`)
+
     try {
-        if(!contenu){
-            return res.status(400).json({message: "Veuillez saisir le contenu du post"})
+
+        if (!contenu || contenu.trim() === "") {
+            return res.status(400).json({ message: "Veuillez saisir le contenu du post." })
         }
-        const rep = await Post.create({
+
+        let images = []
+        if (req.files && req.files.length > 0) {
+            images = req.files.map(image =>
+                `${req.protocol}://${req.get('host')}/uploads/${image.filename}`
+            )
+        }
+
+        const draftPost = await Post.create({
             contenu,
             images,
             authorId: id,
-            status: "draft"
+            status: "draft",
         })
-        return res.status(201).json({message: "Post enregistrer dans votre brouillon.", data: rep})
+
+        return res.status(201).json({
+            message: "Le post a été enregistré dans vos brouillons.",
+            data: draftPost,
+        })
+
     } catch (error) {
-        console.log(error.message);
+        console.error("Erreur lors de l'enregistrement dans les brouillons :", error.message)
         return res.status(500).json({
             message: "Une erreur est survenue. Veuillez réessayer.",
-            erreur: error
+            error: error.message,
         })
     }
 }
