@@ -5,11 +5,37 @@ const addComment = async (req, res) => {
     const {content, postId, parentCommentId} = req.body
 
     try {
-        const rep = await Comment.create({authorId: id, content, postId, parentCommentId})
-        return res.status(201).json({message: "Commentaire posté avec succès.", rep})
+
+        if(!content || !postId) {
+            return res.status(400).json({ message: "Le contenu et l'ID du post sont requis." })
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({ message: "L'ID du post est invalide." })
+        }
+
+        if (parentCommentId && !mongoose.Types.ObjectId.isValid(parentCommentId)) {
+            return res.status(400).json({ message: "L'ID du commentaire parent est invalide." })
+        }
+
+        const newComment = await Comment.create({
+            authorId: id,
+            content,
+            postId,
+            parentCommentId: parentCommentId || null,
+        })
+
+        return res.status(201).json({
+            message: "Commentaire posté avec succès.",
+            data: newComment,
+        })
+
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({message: "Une erreur s'est produite. Veuillez réessayer."})
+        console.error("Erreur dans addComment :", error.message);
+        return res.status(500).json({
+            message: "Une erreur s'est produite. Veuillez réessayer.",
+            error: error.message,
+        })
     }
 }
 
@@ -48,11 +74,28 @@ const updateComment = async (req, res) => {
 const deleteComment = async (req, res) => {
     const { commentId } = req.params
     try {
-        const rep = await Comment.findByIdAndDelete(commentId)
-        return res.status(200).json({message: "Commentaire supprimé avec succès."})
+
+        if (!mongoose.Types.ObjectId.isValid(commentId)) {
+            return res.status(400).json({ message: "L'ID du commentaire est invalide." });
+        }
+
+        const deletedComment = await Comment.findByIdAndDelete(commentId)
+        
+        if (!deletedComment) {
+            return res.status(404).json({ message: "Le commentaire n'existe pas ou a déjà été supprimé." });
+        }
+
+        return res.status(200).json({
+            message: "Commentaire supprimé avec succès.",
+            data: deletedComment,
+        })
+
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({message: "Une erreur est s'est produite. Veuillez réessayer."})
+        console.error("Erreur dans deleteComment :", error.message);
+        return res.status(500).json({
+            message: "Une erreur s'est produite. Veuillez réessayer.",
+            error: error.message,
+        })
     }
 }
 
