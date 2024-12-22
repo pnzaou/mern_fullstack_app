@@ -24,9 +24,9 @@ router.put("/api/post/:id")
 
 
 //COMMENT
-router.post("/api/comments")
+router.route("/api/comments")
     .post(verifToken, addComment)
-router.post("/api/comment/:commentId")
+router.route("/api/comment/:commentId")
     .put(verifToken, updateComment)
     .delete(verifToken, deleteComment)
 

@@ -33,7 +33,7 @@ const signUp = async (req, res) => {
             pseudo,
             email,
             password: hashedPassword,
-            profilPicture: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+            profilPicture: req.file ? `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}` : null
         })
 
         return res.status(201).json({message: "Inscription réussie.", data: rep})

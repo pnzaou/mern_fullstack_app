@@ -2,7 +2,7 @@ const Post = require("../models/Post.model")
 
 const createPost = async (req, res) => {
     const {id} = req.authData
-    const {contenu} = req.body
+    const {titre, contenu} = req.body
 
     try {
 
@@ -18,6 +18,7 @@ const createPost = async (req, res) => {
         }
 
         const newPost = await Post.create({
+            tire,
             contenu,
             images,
             authorId: id,
@@ -39,7 +40,7 @@ const createPost = async (req, res) => {
 
 const addToDraft = async (req, res) => {
     const {id} = req.authData
-    const {contenu} = req.body
+    const {titre, contenu} = req.body
 
     try {
 
@@ -55,6 +56,7 @@ const addToDraft = async (req, res) => {
         }
 
         const draftPost = await Post.create({
+            titre,
             contenu,
             images,
             authorId: id,
