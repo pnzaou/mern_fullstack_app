@@ -15,18 +15,20 @@ const SignUpStep1 = ({register, errors}) => {
     return (
         <div className={`mt-10 flex flex-col items-center gap-6`}>
             <div className="relative">
-                <div className="rounded-full w-24">
-                    {image ? (
-                        <img
-                            src={image}
-                            alt="Preview"
-                        />
-                        ) : (
-                        <img
-                            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                            alt='preview'
-                        />
-                    )}
+                <div className="avatar">
+                    <div className="rounded-full w-24">
+                        {image ? (
+                            <img
+                                src={image}
+                                alt="Preview"
+                            />
+                            ) : (
+                            <img
+                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                                alt='preview'
+                            />
+                        )}
+                    </div>
                 </div>
                 <div className='absolute top-10 -right-10'>
                     <div className="relative flex items-center justify-center w-24 h-24">

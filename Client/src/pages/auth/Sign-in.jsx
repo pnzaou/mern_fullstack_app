@@ -9,14 +9,18 @@ const SignIn = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(TokenContext);
     const navigate = useNavigate();
+    const mdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
     } = useForm();
-    const mdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-    const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+
+    const stepBack = () => {
+        navigate("/opening")
+    }
 
     const onSubmit = async (data) => {
         try {
@@ -38,6 +42,18 @@ const SignIn = () => {
 
     return (
         <div className="bg-gray-200 flex h-screen w-screen justify-center items-center relative">
+            <div className="absolute top-0 left-0 mt-10 ml-11">
+                <div className="flex items-center justify-center border border-gray-300 rounded-xl"style={{
+                    height: 52,
+                    width: 52
+                }}  onClick={stepBack}>
+                    <img
+                        src="images/back-svgrepo-com.svg"
+                        alt="Icon de retour"
+                        className="w-8 h-8"
+                    />
+                </div>
+            </div>
             <div className="bg-white rounded-sm shadow-sm w-[90%] px-10 relative">
                 {/* Loader au-dessus du formulaire */}
                 {isLoading && (
