@@ -10,7 +10,6 @@ const SignIn = () => {
     const {
         register,
         handleSubmit,
-        setValue,
         formState: { errors },
     } = useForm();
 
