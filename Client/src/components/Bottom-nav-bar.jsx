@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import {Home, Search, Settings2} from "lucide-react"
 
 const BottomNavBar = () => {
     return (
@@ -7,12 +8,13 @@ const BottomNavBar = () => {
                 <div className="flex justify-between gap-10">
                     <div>
                         <Link to="#">
-                            <img src="/images/home-svgrepo-com.svg" className="w-7 h-7"/>
+                            <Home size={30}/>
                         </Link>
                     </div>
                     <div>
                         <Link to="#">
-                            <img src="/images/search-svgrepo-com.svg" className="w-7 h-7"/>
+                            {/* <img src="/images/search-svgrepo-com.svg" className="w-7 h-7"/> */}
+                            <Search size={30}/>
                         </Link>
                     </div>
                 </div>
@@ -29,7 +31,8 @@ const BottomNavBar = () => {
                     </div>
                     <div>
                         <Link to="#">
-                            <img src="/images/settings-1-svgrepo-com.svg" className="w-7 h-7"/>
+                            {/* <img src="/images/settings-1-svgrepo-com.svg" className="w-7 h-7"/> */}
+                            <Settings2 size={30}/>
                         </Link>
                     </div>
                 </div>
