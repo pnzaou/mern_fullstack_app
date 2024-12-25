@@ -7,21 +7,20 @@ import './index.css'
 import App from './App.jsx'
 import SignIn from './pages/auth/Sign-in.jsx'
 import SignUp from './pages/auth/Sign-up.jsx'
-import { TokenContextProvider } from './contexts/token.context.jsx'
 import ProtectedRoute from './components/Protected-route.jsx'
 import Opening from './pages/Opening.jsx'
+import ThemeProvider from './components/themeProvider.jsx'
 
 const queryClient = new QueryClient()
+
 
 const router = createBrowserRouter([
   ...["/", "/accueil", "/home"].map((path) => ({
     path,
     element: (
-      <TokenContextProvider>
         <ProtectedRoute>
           <App/>
         </ProtectedRoute>
-      </TokenContextProvider>
     ),
   })),
   {
@@ -31,9 +30,7 @@ const router = createBrowserRouter([
   {
     path: "/connexion",
     element: (
-      <TokenContextProvider>
         <SignIn/>
-      </TokenContextProvider>
     ),
   },
   {
@@ -45,8 +42,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}/>
-      <Toaster/>
+      <ThemeProvider>
+        <RouterProvider router={router}/>
+        <Toaster/>
+      </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

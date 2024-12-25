@@ -1,11 +1,10 @@
-import { useContext } from "react";
-import TokenContext from "../contexts/token.context";
 import { Navigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { authStore } from "../stores/authStore";
 
 const ProtectedRoute = ({children}) => {
 
-    const {token} = useContext(TokenContext)
+    const {token} = authStore()
 
     if(!token) {
         return <Navigate to="/opening"/>

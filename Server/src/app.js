@@ -1,8 +1,8 @@
 const express = require("express")
 const cors = require("cors")
 const path = require("path")
-const router = require("./src/routes")
-const connexion = require("./src/db/db")
+const router = require("./routes")
+const connexion = require("./db/db")
 const app = express()
 const port = 8080
 

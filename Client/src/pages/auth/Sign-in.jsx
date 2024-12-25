@@ -1,13 +1,9 @@
-import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import TokenContext from "../../contexts/token.context";
+import { authStore } from "../../stores/authStore";
 
 const SignIn = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const { login } = useContext(TokenContext);
+    const {isLogging, login} = authStore()
     const navigate = useNavigate();
     const mdpRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
     const emailRegex = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -24,19 +20,12 @@ const SignIn = () => {
 
     const onSubmit = async (data) => {
         try {
-            setIsLoading(true);
-            const rep = await axios.post("http://localhost:8080/api/users/signIn", data);
-            setValue("email", "");
-            setValue("password", "");
-            login(rep.data.token);
-            setIsLoading(false);
-            navigate("/");
-            toast.success(rep.data.message);
+            const rep = await login(data)
+            if(rep) {
+                navigate("/");
+            }
         } catch (error) {
-            setValue("email", "");
-            setValue("password", "");
-            setIsLoading(false);
-            toast.error(error.response.data.message);
+            console.error(error)
         }
     };
 
@@ -56,12 +45,12 @@ const SignIn = () => {
             </div>
             <div className="bg-white rounded-sm shadow-sm w-[90%] px-10 relative">
                 {/* Loader au-dessus du formulaire */}
-                {isLoading && (
+                {isLogging && (
                     <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-white/70 z-10">
                         <span className="loading loading-dots loading-lg"></span>
                     </div>
                 )}
-                <form onSubmit={handleSubmit(onSubmit)} className={isLoading ? "opacity-50" : ""}>
+                <form onSubmit={handleSubmit(onSubmit)} className={isLogging ? "opacity-50" : ""}>
                     <div className="mt-10 flex w-full justify-center">
                         <div>
                             <img src="images/blog-svgrepo-com.svg" alt="logo du site" className='h-24 w-24'/>
@@ -78,10 +67,11 @@ const SignIn = () => {
                                     pattern: emailRegex,
                                 })}
                             />
-                            {errors.email && (
-                                <span className="mt-2 text-sm text-red-500">
-                                    Champ requis! Veuillez saisir un email valide
-                                </span>
+                            {errors.email?.type === "required" && (
+                                <span className="mt-2 text-sm text-red-500">L&apos;email est requis.</span>
+                            )}
+                            {errors.email?.type === "pattern" && (
+                                <span className="mt-2 text-sm text-red-500">Format de l&apos;email invalide.</span>
                             )}
                         </div>
                         <div className="w-full">
@@ -94,16 +84,22 @@ const SignIn = () => {
                                     pattern: mdpRegex,
                                 })}
                             />
-                            {errors.password && (
+                            {errors.password?.type === "required" && (
+                                <span className="mt-2 text-sm text-red-500">Le mot de passe est requis.</span>
+                            )}
+                            {errors.password?.type === "pattern" && (
                                 <span className="mt-2 text-sm text-red-500">
-                                    Champ requis! Minimum: 1 maj, 1 min, 1 chiffre, 1 spé, 8 car
+                                    Minimum : 1 maj, 1 min, 1 chiffre, 1 spé, 8 caractères.
                                 </span>
                             )}
                         </div>
                     </div>
                     <div className="my-10 flex w-full justify-center">
-                        <button className="btn btn-wide text-white font-bold bg-[#4d4a3d] hover:bg-[#302e24]">
-                            Se connecter
+                        <button 
+                            className="btn btn-wide text-white font-bold bg-[#4d4a3d] hover:bg-[#302e24]"
+                            disabled={isLogging}
+                        >
+                            {isLogging ? "Connexion..." : "Se connecter"}
                         </button>
                     </div>
                 </form>
