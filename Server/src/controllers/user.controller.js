@@ -78,7 +78,8 @@ const signIn = async (req, res) => {
         const token = jwt.sign({
             id: user._id,
             userName: user.userName,
-            pseudo: user.pseudo
+            pseudo: user.pseudo,
+            profilPicture: user.profilPicture
         }, secret, {algorithm: "RS256"})
 
         return res.status(200).json({
