@@ -13,6 +13,8 @@ const postSchema = new mongoose.Schema({
     authorId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true}
 },{timestamps: true})
 
+postSchema.index({ createdAt: -1 })
+
 const Post = mongoose.model("Post", postSchema)
 
 module.exports = Post

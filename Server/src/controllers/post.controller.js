@@ -25,15 +25,16 @@ const createPost = async (req, res) => {
         })
 
         return res.status(201).json({
+            success: true,
             message: "Votre post a été publié avec succès.",
             data: newPost,
         })
 
     } catch (error) {
-        console.error("Erreur lors de la création du post :", error.message)
+        console.error("Erreur dans le post.controller(createPost) :", error)
         return res.status(500).json({
-            message: "Une erreur est survenue. Veuillez réessayer.",
-            error: error.message,
+            success: false,
+            message: "Une erreur est survenue. Veuillez réessayer."
         })
     }
 }
@@ -64,15 +65,16 @@ const addToDraft = async (req, res) => {
         })
 
         return res.status(201).json({
+            success: true,
             message: "Le post a été enregistré dans vos brouillons.",
             data: draftPost,
         })
 
     } catch (error) {
-        console.error("Erreur lors de l'enregistrement dans les brouillons :", error.message)
+        console.error("Erreur dans le post.controller(addToDraft) :", error)
         return res.status(500).json({
-            message: "Une erreur est survenue. Veuillez réessayer.",
-            error: error.message,
+            success: false,
+            message: "Une erreur est survenue. Veuillez réessayer."
         })
     }
 }
@@ -81,8 +83,26 @@ const editPost = async (req, res) => {
 
 }
 
+const getAllPosts = async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ createdAt: -1 })
+        return res.status(200).json({
+            success: true,
+            message: "Posts récupérés avec succès",
+            data: posts,
+        })
+    } catch (error) {
+        console.error("Erreur dans le post.controller(getAllPosts) :", error.message)
+        return res.status(500).json({
+            success: false,
+            message: "Erreur serveur! Veuillez réessayer.",
+        })
+    }
+}
+
 module.exports = {
     createPost,
     addToDraft,
-    editPost
+    editPost,
+    getAllPosts
 }
