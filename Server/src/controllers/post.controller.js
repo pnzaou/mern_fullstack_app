@@ -1,4 +1,7 @@
 const Post = require("../models/Post.model")
+const Like = require("../models/Like.model")
+const User = require("../models/User.model")
+const Comment = require("../models/Comment.model")
 
 const createPost = async (req, res) => {
     const {id} = req.authData
@@ -85,11 +88,22 @@ const editPost = async (req, res) => {
 
 const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find().sort({ createdAt: -1 })
+        const posts = await Post.find().sort({ createdAt: -1 }).lean()
+
+        const postsWithDetails = await Promise.all(posts.map(async (post) => {
+            const [likes, author, favs, comments] = await Promise.all([
+                Like.countDocuments({postId: post._id}),
+                User.findById(post.authorId, {profilPicture: 1, userName: 1, pseudo: 1, _id: 0}).lean(),
+                User.countDocuments({favs: post._id}),
+                Comment.countDocuments({postId: post._id})
+            ])
+            return { ...post, likes, author, favs, comments }
+        }))
+
         return res.status(200).json({
             success: true,
             message: "Posts récupérés avec succès",
-            data: posts,
+            data: postsWithDetails,
         })
     } catch (error) {
         console.error("Erreur dans le post.controller(getAllPosts) :", error.message)

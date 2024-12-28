@@ -29,7 +29,7 @@ const Navbar = ({page}) => {
     },[lastScrollY])
 
     return (
-        <header className={`fixed w-screen right-0 left-0 top-0 bg-base-100 bg-opacity-95 backdrop-blur-sm shadow-[0px_2px_7px_rgba(0,0,0,0.2)] ${showNavbar ? 'block' : 'hidden'} transition-all duration-300`}>
+        <header className={`fixed z-10 w-screen right-0 left-0 top-0 bg-base-100 bg-opacity-95 backdrop-blur-sm shadow-[0px_2px_7px_rgba(0,0,0,0.2)] ${showNavbar ? 'block' : 'hidden'} transition-all duration-300`}>
             <div className="flex">
                 <div className="w-1/2 pt-4 pl-3">
                     <div className="avatar">

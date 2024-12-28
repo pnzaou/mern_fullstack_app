@@ -7,6 +7,8 @@ const commentSchema = new mongoose.Schema({
     parentCommentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment", default: null },
 }, { timestamps: true });
 
+commentSchema.index({postId: 1})
+
 const Comment = mongoose.model("Comment", commentSchema)
 
 module.exports = Comment

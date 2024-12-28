@@ -3,7 +3,7 @@ import {Bookmark, Home, Search, Settings2} from "lucide-react"
 
 const BottomNavBar = () => {
     return (
-        <div className="w-screen fixed bottom-0 right-0 left-0 bg-base-100 shadow-[0px_-2px_7px_rgba(0,0,0,0.2)] h-14">
+        <div className="w-screen fixed z-10 bottom-0 right-0 left-0 bg-base-100 shadow-[0px_-2px_7px_rgba(0,0,0,0.2)] h-14">
             <div className="h-full relative flex justify-between items-center px-7">
                 <div className="flex justify-between gap-10">
                     <div>

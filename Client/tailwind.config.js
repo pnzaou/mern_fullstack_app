@@ -8,7 +8,10 @@ export default {
     extend: {
       animation: {
         slowbounce: 'bounce 1.5s infinite'
-      }
+      },
+      backgroundImage: {
+        'custom-image': "url('/path/to/your/image.jpg')",
+      },
     },
   },
   plugins: [

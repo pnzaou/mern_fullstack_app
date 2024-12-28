@@ -6,6 +6,8 @@ const likeSchema = new mongoose.Schema({
     commentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
 }, { timestamps: true });
 
+likeSchema.index({ postId: 1 })
+
 const Like = mongoose.model('Like', likeSchema)
 
 module.exports = Like

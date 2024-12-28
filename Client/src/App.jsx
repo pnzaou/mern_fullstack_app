@@ -1,14 +1,42 @@
 import BottomNavBar from "./components/Bottom-nav-bar"
 import Navbar from "./components/Navbar"
+import PostCard from "./components/Post-card"
+import { postStore } from "./stores/postStore"
+import {authStore} from "./stores/authStore"
+import { useEffect } from "react"
+import PostSkeleton from "./components/skeletons/Post-skeleton"
 
-function App() {  
+function App() {
+  const {token} = authStore()
+  const {allPosts, getAllPosts, isPostsLoading, isError} = postStore()
+
+  useEffect(() => {
+    getAllPosts(token)
+  }, [getAllPosts, token])
+
+  const refetch = () => getAllPosts(token)
 
   return (
     <div>
       <Navbar page="pour vous"/>
-      <div className="px-6 text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic fugiat numquam, commodi deleniti sint saepe possimus non sequi repudiandae fugit excepturi exercitationem fuga id, illo quidem incidunt nam unde laborum praesentium nostrum. Inventore, temporibus provident. Soluta voluptatibus esse quam inventore, provident quis accusamus eum consectetur. Commodi, ex sit unde iusto esse repudiandae totam. Sit rerum nesciunt fugiat necessitatibus a doloremque? Repellendus nisi laudantium ipsum ducimus deleniti quaerat ea modi nobis atque veniam exercitationem iure, quod omnis asperiores laboriosam accusamus aperiam, nemo velit minima ad. Excepturi veritatis quis perspiciatis voluptatibus magni voluptatem laudantium sint, accusamus ipsam. Cumque dignissimos, excepturi deserunt nihil ex sequi eius ad facilis distinctio ab totam unde id adipisci molestias ipsam odit et? Deleniti quis labore, alias enim perferendis deserunt ab pariatur natus, fuga quam explicabo expedita ex optio illum ut voluptatum cumque rerum at sed, velit voluptatibus non maxime nemo. Ut inventore blanditiis voluptatibus nam! Cumque veritatis unde, pariatur maxime itaque quisquam vero blanditiis cupiditate provident sunt et perferendis quo esse repudiandae a minus sapiente ipsam quis molestias, veniam ea odio nam fugiat! Odio esse dolorum, totam alias consequatur eaque possimus deleniti, et ab officiis voluptates animi illum debitis voluptatum ipsam minima blanditiis illo! Ea facere magnam ab incidunt. Odit dicta accusantium tenetur atque culpa facilis ducimus impedit architecto expedita maxime incidunt eos unde quis doloremque natus quidem ex, recusandae aliquid dolore quibusdam ipsam quo nostrum ea a. Nisi voluptatem id quidem. Provident culpa nesciunt dolorum numquam dolor debitis quo repudiandae sed. Enim provident asperiores voluptas quaerat consequuntur mollitia magni nemo tempore eaque at. Consequuntur, cupiditate veniam optio perspiciatis, adipisci nesciunt dicta voluptas maiores non dolores unde inventore, error et quas officia ducimus iste! Minima ipsum, modi unde ullam aspernatur sit asperiores laborum earum doloremque cumque optio incidunt obcaecati. Aliquam corporis rerum neque provident magni nulla? Aperiam, rem non expedita cupiditate aliquid excepturi enim tempore praesentium eius ullam iure a fugiat. Iure fugit perspiciatis tempore repudiandae? Facilis vel mollitia autem soluta maxime expedita fuga officiis ab provident molestiae ex iusto minus voluptatibus libero, dolore magni natus labore et ea corporis cumque at inventore. Cumque obcaecati nulla cupiditate laboriosam hic unde molestiae reiciendis nesciunt sint, eos deserunt eius maiores ut ipsum sequi laudantium eligendi? Accusantium reiciendis corrupti vel fugiat itaque ad perspiciatis cumque quod quis deserunt! Laudantium, quibusdam quisquam consequuntur corrupti porro recusandae sunt dicta voluptates expedita quis eos minus nam sequi non, laboriosam maiores! Possimus ex, soluta recusandae quisquam esse maxime velit autem quis illo et architecto at sint corporis quo tenetur. Natus qui quidem harum praesentium hic ipsa delectus, ab quasi sint fuga! Eum recusandae unde perferendis labore velit eaque! Iusto veritatis error consequuntur rem ad vero itaque vitae nihil eligendi atque quis, nobis ipsam temporibus hic nemo quae mollitia minima, cupiditate voluptatum unde possimus. Enim nostrum eveniet animi quas reiciendis rerum, sit aut cumque repellat ducimus delectus expedita amet officiis accusantium, error laudantium id, inventore suscipit! Consequuntur ad eos quisquam adipisci delectus doloribus, modi tempore fugit. Suscipit, totam. Amet consectetur aspernatur cum, necessitatibus dolore dolorem commodi ullam reiciendis, consequuntur similique sint laudantium sunt neque sit! Nisi nostrum ducimus rem sit! Blanditiis, ipsa! Deserunt magnam modi odit veniam rerum vero, vel mollitia possimus illum perspiciatis cumque necessitatibus, eius unde nam est optio consequuntur laudantium! Praesentium expedita voluptas eveniet quo necessitatibus illo reiciendis ipsum ipsam repudiandae, corporis nihil quasi est ea cum minus nam possimus magni earum nobis doloribus error soluta autem totam? Odit mollitia eum cupiditate, qui reprehenderit corrupti vitae voluptatibus laboriosam impedit tenetur excepturi minus culpa molestias aut voluptas quis! Dolorem architecto consequuntur cumque, molestias aut repudiandae iusto dolorum ea neque sed a. Sit ad tenetur iste consequuntur nisi esse expedita assumenda, nihil quis quaerat, earum impedit! Fugit non sapiente cum repudiandae architecto. Accusamus, nostrum mollitia. Dolorum placeat dolor distinctio nobis aperiam laboriosam, dicta officia labore quisquam vel animi voluptas. Assumenda aliquam corrupti iusto fugiat sint, dolorum cumque libero repellat consectetur maiores, doloribus quod pariatur reprehenderit iste? Voluptatem, atque quia, quas quos reprehenderit nam labore quasi cupiditate inventore hic cum blanditiis nemo, assumenda in minus! Quod saepe provident quasi obcaecati, cum neque! Officiis odio nulla voluptatem consectetur ipsum sed nesciunt quasi rerum est consequuntur tempore, accusamus sapiente deleniti suscipit animi itaque autem totam nam dolorum perspiciatis voluptas quae. Soluta accusamus sed officia unde corporis cupiditate, consequatur, ea quis debitis iste hic nisi! Sunt fuga harum neque nisi error voluptatibus eius architecto debitis excepturi nihil culpa ea maiores alias aut dolorem molestiae voluptate voluptates, quod quasi, dicta ipsa. Praesentium id consequatur nobis molestiae sed et repudiandae saepe velit voluptatum vero corrupti optio aliquam quasi quidem, maiores at nesciunt reprehenderit cum, ipsa blanditiis accusantium sit totam, consectetur ab! Nostrum sit quibusdam illum commodi! Dicta ad assumenda fugiat labore voluptatibus recusandae, iste aperiam officiis beatae pariatur expedita necessitatibus unde sed ratione nemo ab, tenetur autem similique deserunt minus. Eveniet, quod! Deserunt cumque tenetur nesciunt, inventore et dolore expedita alias asperiores, adipisci dolor corporis libero porro maxime dicta ad odit ab velit. Autem error sapiente ad dolorem culpa unde illum facere molestiae reiciendis? Doloribus deserunt fugiat vitae error dolores laborum obcaecati, distinctio consectetur nemo magnam? Inventore eum ex dicta natus rerum. Odit eum vitae libero, nemo fuga vero fugit impedit dolore et ad minus ratione ducimus sed expedita repellendus reprehenderit labore soluta voluptatum pariatur, mollitia totam veniam! Saepe adipisci nisi cum asperiores libero, officia quam quis cupiditate et, laborum non similique debitis exercitationem repellendus tenetur neque ut nam. Neque dolorum voluptas eum cupiditate omnis velit tenetur reprehenderit quod sequi delectus fugit, aliquid distinctio porro ipsum. Nisi, sapiente saepe! Tempore ducimus deleniti, tempora nihil molestias veniam deserunt blanditiis ipsum velit! Harum eveniet repudiandae iste mollitia quis est nulla ducimus maiores perferendis numquam! Officiis perferendis excepturi necessitatibus omnis quam, repellat, corrupti placeat nesciunt obcaecati voluptatem odit eius doloribus. Veritatis voluptas beatae facere atque blanditiis architecto, repellat maiores veniam distinctio ipsa quam molestiae quo consectetur omnis voluptatem. Minima natus iste fuga beatae sequi recusandae enim hic animi deleniti perspiciatis doloribus molestiae veniam quaerat numquam, eligendi rem corporis architecto eos cum facere nobis.
-      </div>
+      {isPostsLoading 
+        ? (
+          <PostSkeleton/>
+        ) 
+        : isError 
+        ? (
+          <div className="flex h-screen items-center justify-center">
+              <button className="btn btn-wide" onClick={refetch}>Réessayer</button>
+          </div>
+        ) 
+        : (
+          <div className="mt-[129px] mb-24 px-5">
+            {allPosts?.map(post => (
+              <PostCard key={post._id} post={post}/>
+            ))}
+          </div>
+        )
+      }
       <BottomNavBar/>
     </div>
   )
