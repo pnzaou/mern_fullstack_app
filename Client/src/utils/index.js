@@ -9,5 +9,10 @@ export const timeAgo = (dateString) => {
         return diffInMinutes > 1 ? `il y a ${diffInMinutes} min` : `il y a moins d'une min`;
     }
 
-    return diffInHours > 1 ? `il y a ${diffInHours} h` : `il y a une h`;
+    if(diffInHours >= 1){
+        if(diffInHours >= 24) {
+            return `${Math.floor(diffInHours / 24)} j`
+        }
+        return diffInHours > 1 ? `il y a ${diffInHours} h` : `il y a une h`;
+    }
 }

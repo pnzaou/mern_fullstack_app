@@ -87,8 +87,10 @@ const editPost = async (req, res) => {
 }
 
 const getAllPosts = async (req, res) => {
+    const {skip} = req.query
+    console.log(skip);
     try {
-        const posts = await Post.find().sort({ createdAt: -1 }).lean()
+        const posts = await Post.find().sort({ createdAt: -1 }).skip(parseInt(skip)).limit(10).lean()
 
         const postsWithDetails = await Promise.all(posts.map(async (post) => {
             const [likes, author, favs, comments] = await Promise.all([
